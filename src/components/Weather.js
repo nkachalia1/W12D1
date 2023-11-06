@@ -1,17 +1,15 @@
 import React from 'react';
 import { toQueryString } from '../utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-class Weather = () => {
+const Weather = () => {
   const [weather, setWeather] = useState(null);
   useEffect( () => {
-    console.log(err),
-      { timeout: 10000 }
-  })
-}
+    pollWeather(location),
+    { timeout: 10000 }
+  }, []);
 
-
-    pollWeather = async (location) => {
+    const pollWeather = async (location) => {
       let url = 'http://api.openweathermap.org/data/2.5/weather?';
 
       /* Remember that it's unsafe to expose your API key. (Note that pushing
@@ -36,15 +34,13 @@ class Weather = () => {
       const res = await fetch(url);
       if (res.ok) {
         const weather = await res.json();
-        this.setState({ weather });
+        setWeather(weather);
       }
       else {
         alert ("Check Weather API key!")
       }
     }
 
-  render() {
-    const weather = this.state.weather;
     let content = <div className='loading'>loading weather...</div>;
 
     if (weather) {
@@ -73,6 +69,5 @@ class Weather = () => {
       </section>
     );
   }
-}
 
 export default Weather;
